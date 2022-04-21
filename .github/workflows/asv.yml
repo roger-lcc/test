@@ -20,7 +20,7 @@ jobs:
       fail-fast: false  # don't cancel other matrix jobs when one fails
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9]
         environment-type: [conda, bare]
         exclude:
           - os: macos-latest
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}${{ matrix.suffix }}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
@@ -49,7 +49,7 @@ jobs:
         env:
           # build requirement filename.  First replacement is for the python
           # version, mapping from "3.7" to "37", second is to add "-min" if needed
-          REQUIREMENTS: ci/requirements-py${{ fromJSON(env.VERSIONMAP)[matrix.python-version] }}${{ matrix.suffix }}.yml
+          REQUIREMENTS: ci/requirements-py${{ fromJSON(env.VERSIONMAP)[matrix.python-version] }}.yml
 
       - name: Install asv
         run:  pip install .
@@ -58,7 +58,7 @@ jobs:
         run: |
           cd benchmarks
           asv machine --yes
-          asv run --quick
+          asv run --quick | sed "/failed$/ s/^/##[error]/" | tee benchmarks.log
           if grep "failed" benchmarks.log > /dev/null ; then
             exit 1
        
