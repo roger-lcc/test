@@ -1,0 +1,67 @@
+name: CI ASV check
+
+on: 
+  push:
+    paths:
+      - 'benchmarks/benchmarks/**'
+  pull_request:
+      paths:
+      - 'benchmarks/benchmarks/**'
+
+jobs:
+  test:
+    env:
+      # we need to turn "3.6" into 36 to build the conda requirement filename,
+      # but there's no good way to do that via string manipulation.  So set up
+      # a map that will be parsed as JSON later:
+      VERSIONMAP: '{"3.6": "36", "3.7": "37", "3.8": "38", "3.9": "39"}'
+
+    strategy:
+      fail-fast: false  # don't cancel other matrix jobs when one fails
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+        environment-type: [conda, bare]
+        suffix: ['']  # placeholder as an alternative to "-min"
+        include:
+          - os: ubuntu-latest
+            python-version: 3.6
+            environment-type: conda
+            suffix: -min
+        exclude:
+          - os: macos-latest
+            environment-type: conda
+          - os: windows-latest
+            environment-type: bare
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}${{ matrix.suffix }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up conda environment
+        if: matrix.environment-type == 'conda'
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test_env
+          environment-file: ${{ env.REQUIREMENTS }}
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+        env:
+          # build requirement filename.  First replacement is for the python
+          # version, mapping from "3.7" to "37", second is to add "-min" if needed
+          REQUIREMENTS: ci/requirements-py${{ fromJSON(env.VERSIONMAP)[matrix.python-version] }}${{ matrix.suffix }}.yml
+
+      - name: Install asv
+        run:  pip install asv
+
+      - name: Run asv
+        run: |
+          asv machine --yes
+          asv run --quick
+        working-directory: ./benchmarks
