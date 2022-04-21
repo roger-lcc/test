@@ -101,9 +101,9 @@ class SolarPositionFast:
             self.times_daily, self.lat, self.lon, declination,
             equationoftime)
 
-    # def time_sun_rise_set_transit_ephem(self, ndays):
-    #     solarposition.sun_rise_set_transit_ephem(
-    #         self.times_daily, self.lat, self.lon)
+    def time_sun_rise_set_transit_ephem(self, ndays):
+        solarposition.sun_rise_set_transit_ephem(
+            self.times_daily, self.lat, self.lon)
 
 
 class SolarPositionCalcTime:
