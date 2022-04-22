@@ -16,22 +16,22 @@ jobs:
         shell: bash -el {0}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Install Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.9.7'
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9.7'
 
-    - name: Install asv
-      run:  pip install .
+      - name: Install asv
+        run:  pip install .
 
-    - name: Run asv benchmarks
-      run: |
-        cd benchmarks
-        asv machine --yes
-        asv run --quick --dry-run --strict --durations=30 --python=same
-      
+      - name: Run asv benchmarks
+        run: |
+          cd benchmarks
+          asv machine --yes
+          asv run --quick --dry-run --strict --durations=30 --python=same
+        
