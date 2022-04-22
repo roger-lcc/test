@@ -5,40 +5,40 @@ on:
     paths:
       - 'benchmarks/benchmarks/**'
   pull_request:
-      paths:
-      - 'benchmarks/benchmarks/**'
+    paths:
+    - 'benchmarks/benchmarks/**'
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-            uses: actions/checkout@v3
-            with:
-              fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-      - name: Cache conda
-            uses: actions/cache@v3
-            with:
-              path: ~/conda
-              key: ${{ runner.os }}-conda-${{ hashFiles('${{ env.ENV_FILE }}') }}
+    - name: Cache conda
+      uses: actions/cache@v3
+      with:
+        path: ~/conda
+        key: ${{ runner.os }}-conda-${{ hashFiles('${{ env.ENV_FILE }}') }}
 
-      - uses: conda-incubator/setup-miniconda@v2.1.1
-        with:
-          mamba-version: "*"
-          channels: conda-forge
-          activate-environment: pvlib-asv
-          channel-priority: strict
-          environment-file: ${{ env.ENV_FILE }}
-          use-only-tar-bz2: true 
+    - uses: conda-incubator/setup-miniconda@v2.1.1
+      with:
+        mamba-version: "*"
+        channels: conda-forge
+        activate-environment: pvlib-asv
+        channel-priority: strict
+        environment-file: ${{ env.ENV_FILE }}
+        use-only-tar-bz2: true 
 
-      - name: Install asv
-        run:  pip install .
+    - name: Install asv
+      run:  pip install .
 
-      - name: Run asv
-        run: |
-          cd benchmarks
-          asv machine --yes
-          asv run --quick --dry-run --strict --durations=30 --python=same
+    - name: Run asv
+      run: |
+        cd benchmarks
+        asv machine --yes
+        asv run --quick --dry-run --strict --durations=30 --python=same
        
