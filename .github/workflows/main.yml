@@ -11,6 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
 
     steps:
     - name: Checkout
@@ -21,7 +24,7 @@ jobs:
     - name: Cache conda
       uses: actions/cache@v3
       with:
-        path: ~/conda
+        path: ~/conda_pkgs_dir
         key: ${{ runner.os }}-conda-${{ hashFiles('${{ env.ENV_FILE }}') }}
 
     - uses: conda-incubator/setup-miniconda@v2.1.1
@@ -36,9 +39,9 @@ jobs:
     - name: Install asv
       run:  pip install .
 
-    - name: Run asv
+    - name: Run asv benchmarks
       run: |
+        cd benchmarks
         asv machine --yes
         asv run --quick --dry-run --strict --durations=30 --python=same
-      working-directory: ./benchmarks
-       
+      
