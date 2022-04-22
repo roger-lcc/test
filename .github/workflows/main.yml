@@ -6,7 +6,7 @@ on:
       - 'benchmarks/benchmarks/**'
   pull_request:
     paths:
-    - 'benchmarks/benchmarks/**'
+      - 'benchmarks/benchmarks/**'
 
 jobs:
   test:
@@ -38,7 +38,7 @@ jobs:
 
     - name: Run asv
       run: |
-        cd benchmarks
         asv machine --yes
         asv run --quick --dry-run --strict --durations=30 --python=same
+      working-directory: ./benchmarks
        
