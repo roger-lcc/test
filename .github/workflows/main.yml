@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ github.token }}
+          token: ${{ github.test }}
 
       - name: Install Python
         uses: actions/setup-python@v3
@@ -35,5 +35,8 @@ jobs:
         run: |
           cd benchmarks
           asv machine --yes
-          asv run --quick --dry-run --python=same
+          asv run --quick --dry-run --python=same | sed "/failed$/ s/^/##[error]/" | tee benchmarks.log
+          if grep "failed" benchmarks.log > /dev/null ; then
+              exit 1
+          fi
         
