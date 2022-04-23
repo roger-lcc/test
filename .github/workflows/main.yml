@@ -34,5 +34,5 @@ jobs:
         run: |
           cd benchmarks
           asv machine --yes
-          asv run --quick
+          asv run --quick --dry-run --python=same
         
