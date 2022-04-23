@@ -3,10 +3,10 @@ name: CI ASV check
 on: 
   push:
     paths:
-      - 'benchmarks/benchmarks/**'
+      - 'benchmarks/**'
   pull_request:
     paths:
-      - 'benchmarks/benchmarks/**'
+      - 'benchmarks/**'
 
 jobs:
   test:
