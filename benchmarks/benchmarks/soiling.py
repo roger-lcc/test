@@ -28,3 +28,4 @@ class Soiling:
     def time_test(self, ndays):
         cleaningthreshold = 0.5
         soiling.hsu(self.rainfall, )
+
