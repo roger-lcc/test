@@ -17,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install Python
         uses: actions/setup-python@v3
@@ -26,7 +28,7 @@ jobs:
       - name: Install asv
         run: |
           pip install .
-          pip install asv
+          pip install asv==0.4.2
 
       - name: Run asv benchmarks
         run: |
