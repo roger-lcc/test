@@ -1,17 +1,11 @@
 name: CI ASV check
 
-on: 
-  push:
-    paths:
-      - 'benchmarks/**'
-  pull_request:
-    paths:
-      - 'benchmarks/**'
+on: [pull_request, push]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
+    defaults: 
       run:
         shell: bash -el {0}
 
