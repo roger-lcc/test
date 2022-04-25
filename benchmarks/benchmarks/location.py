@@ -2,6 +2,7 @@
 ASV benchmarks for location.py
 """
 
+
 import pandas as pd
 import pvlib
 from pkg_resources import parse_version
