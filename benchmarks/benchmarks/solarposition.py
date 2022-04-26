@@ -2,7 +2,6 @@
 ASV benchmarks for solarposition.py
 """
 
-
 import datetime
 import pandas as pd
 import pvlib
