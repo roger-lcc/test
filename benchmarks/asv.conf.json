@@ -13,7 +13,6 @@
     // project being benchmarked
     "repo": "..",
 
-    "branches": "main",
 
     // The Python project's subdirectory in your repo.  If missing or
     // the empty string, the project is assumed to be located at the root
