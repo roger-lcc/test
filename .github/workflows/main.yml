@@ -31,7 +31,6 @@ jobs:
           cd benchmarks
           asv machine --yes
           asv run --quick --dry-run --show-stderr --python=same 
-          sed "/failed$/ s/^/##[error]/" | tee benchmarks.log
           if grep "failed" benchmarks.log > /dev/null ; then
               exit 1
           fi
