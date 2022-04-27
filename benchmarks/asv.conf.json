@@ -4,7 +4,7 @@
     "version": 1,
 
     // The name of the project being benchmarked
-    "project": "pvlib-python",
+    "project": "test",
 
     // The project's homepage
     "project_url": "https://pvlib-python.readthedocs.io",
@@ -51,7 +51,7 @@
     //"install_timeout": 600,
 
     // the base URL to show a commit for the project.
-    "show_commit_url": "http://github.com/pvlib/pvlib-python/commit/",
+    "show_commit_url": "http://github.com/roger-lcc/test/commit/",
 
     // The Pythons you'd like to test against.  If not provided, defaults
     // to the current version of Python used to run `asv`.
