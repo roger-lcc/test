@@ -24,3 +24,7 @@ class Soiling:
     def time_kimber(self, ndays):
         cleaningthreshold = 25
         soiling.kimber(self.rainfall, cleaningthreshold)
+
+    def time_hsu(self, ndays):
+        cleaningthreshold = 0.5
+        soiling.hsu(self.rainfall, )
